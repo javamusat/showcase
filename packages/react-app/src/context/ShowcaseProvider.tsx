@@ -9,11 +9,15 @@ export const ShowcaseContext = React.createContext(null);
 
 export const ShowcaseProvider: React.FC = ({ children }) => {
   const showcaseReducer = (state: any, action: any) => {
+    // TODO: MOCK for SHOWCASE
     switch (action.type) {
       case "setJWT":
         return {
           jwt: action.jwt,
-          profile: jwt.verify(action.jwt, process.env.REACT_APP_SECRET),
+          profile:
+            action.jwt && action.jwt !== "MOCK"
+              ? jwt.verify(action.jwt, process.env.REACT_APP_SECRET)
+              : null,
           existingAccount: action.existingAccount,
           loginFailed: action.loginFailed,
         };

@@ -50,7 +50,7 @@ const Home: React.FC<any> = () => {
       >
         Get Balance
       </Button>
-      <div>Your balance: {balance || "No data"}</div>
+      <div>Your PPDEX balance: {balance || "No data"}</div>
       <div style={{ height: "2rem" }} />
       <Button
         disabled={!wallet.provider}
@@ -74,11 +74,16 @@ const Home: React.FC<any> = () => {
         {transaction && transaction.id ? (
           <p>{JSON.stringify(transaction)}</p>
         ) : (
-          <span> No transaction data </span>
+          <span>
+            {transaction.error
+              ? JSON.stringify(transaction.error.error.message, null, 2)
+              : "No transaction data"}
+          </span>
         )}
       </div>
-      <Button onClick={() => fetchApiData("user")}>Fetch data</Button>
+      <Button onClick={() => fetchApiData("user")}>Fetch data from API</Button>
       <div>{apiData["user"] && JSON.stringify(apiData["user"].data)}</div>
+      <div>{apiData["user"] && JSON.stringify(apiData["user"])}</div>
     </Body>
   );
 };

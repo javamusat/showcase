@@ -61,19 +61,19 @@ export const createAuthBody = (firebase: any, wallet: any): ShowcaseAuth => ({
 });
 
 const LoginModal: React.FC<any> = ({
-  isTwitterAuthenticated,
+  // isTwitterAuthenticated,
   firebase,
   wallet,
   showcase,
 }) => {
   const [provider, loadWeb3Modal, logoutOfWeb3Modal] = useWeb3Modal();
-
+  // TODO MOCK for SHOWCASE => !firebase.user = !isTwitterAuthenticated
   return (
     <Modal>
-      {!isTwitterAuthenticated ? (
+      {!firebase.user ? (
         <>
           <ModalImage />
-          <LoginStepper currentStep={isTwitterAuthenticated ? 2 : 1} />
+          <LoginStepper currentStep={!firebase.user ? 2 : 1} />
           <ModalContent>
             <h2>Get rewarded for engagement</h2>
             <p>Join the social farm and start earning today!</p>
@@ -85,7 +85,7 @@ const LoginModal: React.FC<any> = ({
       ) : wallet.account ? (
         <>
           <ModalImage />
-          <LoginStepper currentStep={isTwitterAuthenticated ? 2 : 1} />
+          <LoginStepper currentStep={!firebase.user ? 2 : 1} />
           <ModalContent>
             <h2>{showcase.loginFailed ? "Login failed" : "Logging in"}</h2>
             <p>
@@ -99,7 +99,7 @@ const LoginModal: React.FC<any> = ({
       ) : (
         <>
           <ModalImage />
-          <LoginStepper currentStep={isTwitterAuthenticated ? 2 : 1} />
+          <LoginStepper currentStep={!firebase.user ? 2 : 1} />
           <ModalContent>
             <h2>Hi {firebase.user ? firebase.user.displayName : ""}</h2>
             <p>Connect your wallet and start earning today!</p>
@@ -126,9 +126,9 @@ function withAuthentication(WrappedComponent: React.FC) {
     const { apiData, fetchApiData } = useShowcaseApi();
 
     useEffect(() => {
-      // TODO improve check
+      // TODO MOCK for SHOWCASE re-enable isTwitterAuthenticated
       if (
-        isTwitterAuthenticated &&
+        // isTwitterAuthenticated &&
         wallet.account &&
         firebase.credential &&
         !showcase.jwt &&
@@ -140,7 +140,13 @@ function withAuthentication(WrappedComponent: React.FC) {
       }
     }, [firebase, wallet, showcase]);
 
-    if (!isTwitterAuthenticated || !wallet.account || !showcase.jwt) {
+    // TODO MOCK for SHOWCASE re-enable isTwitterAuthenticated
+    if (
+      // !isTwitterAuthenticated ||
+      !firebase.user ||
+      !wallet.account ||
+      !showcase.jwt
+    ) {
       return (
         <Overlay>
           <LoginModal

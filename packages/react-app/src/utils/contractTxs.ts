@@ -21,7 +21,7 @@ export const sendTransaction = async (
   } catch (err) {
     dispatch({
       type: "transactionError",
-      error: { code: err.code, message: err.message },
+      error: err,
     });
   }
 };

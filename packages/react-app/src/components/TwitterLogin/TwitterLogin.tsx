@@ -16,7 +16,7 @@ const SocialButtonList: React.FC<any> = ({
   auth,
   currentProviders = null,
 }) => {
-  const { dispatchFb } = useFirebase();
+  const { firebase, dispatchFb } = useFirebase();
   const history = useHistory();
 
   const authHandler = (authData: any) => {
@@ -41,10 +41,39 @@ const SocialButtonList: React.FC<any> = ({
     const providerOAuth = buttonList[provider].provider();
 
     if (!auth().currentUser) {
-      auth()
-        .signInWithPopup(providerOAuth)
-        .then(authHandler)
-        .catch((err: any) => console.error(err));
+      auth();
+      // .signInWithPopup(providerOAuth)
+      // .then(authHandler)
+      // .catch((err: any) => console.error(err));
+      // TODO: MOCK for SHOWCASE
+      return authHandler({
+        user: {
+          uid: "firebaseId",
+          emailVerified: true,
+          displayName: "displayName",
+          refreshToken: "refreshToken",
+          providerData: [
+            {
+              uid: "providerId",
+              photoUrl: "https://photo.url",
+              email: "mock@email.mock",
+            },
+          ],
+        },
+        credential: {
+          accessToken: "accessToken",
+          secret: "tokenSecret",
+        },
+        additionalUserInfo: {
+          profile: {
+            name: "my name",
+            screen_name: "screenName",
+            followers_count: 100,
+            friends_count: 50,
+            location: "Pluto",
+          },
+        },
+      });
     } else {
       auth().signOut();
       dispatchFb({ type: "logout" });
@@ -52,9 +81,11 @@ const SocialButtonList: React.FC<any> = ({
   };
 
   const renderButtonList = (provider: any) => {
+    // TODO: MOCK for SHOWCASE
     return (
       <Button key={provider} onClick={(e) => authenticate(e, provider)}>
-        {!auth().currentUser ? "Sign up with Twitter" : "Restart"}
+        {/*{!auth().currentUser ? "Sign up with Twitter" : "Restart"}*/}
+        {!firebase.user ? "Sign up with Twitter" : "Logout"}
       </Button>
     );
   };

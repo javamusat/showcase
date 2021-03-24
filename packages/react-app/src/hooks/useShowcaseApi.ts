@@ -1,8 +1,9 @@
-import { useContext } from "react";
+import React, { useContext } from "react";
 import axios from "axios";
 import { ShowcaseApiContext } from "../context/ShowcaseApiProvider";
 import { ShowcaseContext } from "../context/ShowcaseProvider";
 import { FirebaseContext } from "../context/FirebaseProvider";
+import { Button } from "../components";
 
 const authHandler = (result: any, dispatch: any = {}) => {
   if ([200, 201].includes(result.status)) {
@@ -13,19 +14,26 @@ const authHandler = (result: any, dispatch: any = {}) => {
       loginFailed: false,
     });
   }
+  // return dispatch.dispatchOd({
+  //   type: "setJWT",
+  //   jwt: null,
+  //   existingAccount: false,
+  //   loginFailed: true,
+  // });
+
+  // TODO MOCK for SHOWCASE
   return dispatch.dispatchOd({
     type: "setJWT",
-    jwt: null,
-    existingAccount: false,
-    loginFailed: true,
+    jwt: "MOCK",
+    existingAccount: true,
+    loginFailed: false,
   });
 };
 
 const BASE_URI: string = `${process.env.REACT_APP_API_URI}/v1/`;
 const METHODS: any = {
   auth: ["auth", authHandler],
-  user: ["user", null],
-  // getCards: 'cards/'
+  user: ["user", () => ({ mock: "DATA" })],
 };
 
 const paramBuilder = (params: string[]) => params.join("/");
@@ -91,6 +99,7 @@ const useShowcaseApi = () => {
       if (METHODS[method][1]) {
         METHODS[method][1]({ status: err.status }, { dispatchOd, dispatchFb });
       }
+
       dispatchApi({
         method,
         data: "failed",
