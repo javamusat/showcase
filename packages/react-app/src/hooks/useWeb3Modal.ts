@@ -52,10 +52,7 @@ function useWeb3Modal(config = {}) {
       const network = await web3Provider.getNetwork();
       chainId = network.chainId;
     }
-    const account =
-      web3Provider.connection.url === "metamask"
-        ? (web3Provider.provider as any).selectedAddress
-        : (web3Provider.provider as any).accounts[0];
+    const accounts = await web3Provider.listAccounts();
     const contracts = new Map([
       [
         "PPDEX",
@@ -71,7 +68,7 @@ function useWeb3Modal(config = {}) {
       type: "setContext",
       contracts,
       chainId,
-      account,
+      account: accounts[0],
       provider: web3Provider,
     });
   };
