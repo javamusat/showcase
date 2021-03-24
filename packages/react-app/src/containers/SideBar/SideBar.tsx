@@ -14,9 +14,7 @@ const SideBar: React.FC<any> = () => {
         justifyContent: "center",
       }}
     >
-      <div style={{ marginRight: "2rem" }}>
-        {firebase.user ? firebase.user.displayName : ""}
-      </div>
+      <div style={{ margin: "2rem" }}>{JSON.stringify(firebase.user)}</div>
     </div>
   );
 };
