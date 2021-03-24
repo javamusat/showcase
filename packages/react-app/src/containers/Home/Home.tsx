@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Body, Button, Image } from "../../components";
-import logo from "../../assets/img/showcase-300x230_0.png";
+import logo from "../../assets/img/ethereumLogo.png";
 
 import { sendTransaction } from "../../utils/contractTxs";
 import { Contract } from "@ethersproject/contracts";
